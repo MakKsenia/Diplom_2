@@ -35,15 +35,6 @@ def generate_order_data():
     order_body["ingredients"] = sample(DataForOrderCreate.CREATE_ORDER_BODY["ingredients"], 2)
     return order_body
 
-@pytest.fixture
-def generate_empty_order_data():
-    order_body = DataForOrderCreate.CREATE_EMPTY_ORDER_BODY
-    return order_body
-
-@pytest.fixture
-def generate_order_with_wrong_ingredients():
-    order_body = DataForOrderCreate.CREATE_WRONG_ORDER_BODY
-    return order_body
 
 
 

@@ -4,7 +4,8 @@ from methods.login_methods import LoginMethods
 from methods.order_methods import OrderMethods
 from conftest import generate_order_data
 from methods.user_methods import UserMethods
-from data import ServerReplyMessages
+from data import ServerReplyMessages, DataForOrderCreate
+
 
 class TestCreateOrder:
     @allure.title('Успешное создание заказа без авторизации пользователя')
@@ -32,8 +33,18 @@ class TestCreateOrder:
         empty_ingredients_order_error_message = ServerReplyMessages.empty_ingredients_order_error_message
         assert order_body.status_code == 400 and order_body.json() == {"success": False,"message": empty_ingredients_order_error_message}
 
+    @allure.title('Ошибка при создании заказа без ингредиентов')
+    @allure.description('Проверка создания заказа с пустыми ингредиентами')
+    def test_create_order_with_empty_ingredients(self):
+        order_body = DataForOrderCreate.CREATE_EMPTY_ORDER_BODY
+        response = OrderMethods.create_order(order_body)
+        empty_ingredients_order_error_message = ServerReplyMessages.empty_ingredients_order_error_message
+        assert response.status_code == 400 and response.json() == {"success": False,
+                                                                   "message": empty_ingredients_order_error_message}
+
     @allure.title('Ошибка при создании заказов с неверным хэшем (id) ингредиентов')
-    @allure.description('Проверка создания заказа с несуществующими ингедиентами')
-    def test_create_order_with_wrong_ingredients(self, generate_order_with_wrong_ingredients):
-        order_body = OrderMethods.create_order(generate_order_with_wrong_ingredients)
-        assert order_body.status_code == 500
+    @allure.description('Проверка создания заказа с несуществующими ингредиентами')
+    def test_create_order_with_wrong_ingredients(self):
+        order_body = DataForOrderCreate.CREATE_WRONG_ORDER_BODY
+        response = OrderMethods.create_order(order_body)
+        assert response.status_code == 500
