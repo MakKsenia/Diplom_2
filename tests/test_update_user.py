@@ -16,8 +16,8 @@ class TestUpdateUser:
         assert response.json().get("success") is True
         assert "accessToken" in response.json()
         user_update = UserMethods.update_user(generate_update_user_data)
-        assert user_update.status_code == 200 and user_update.json()['user']['email'] == generate_update_user_data['email'] and ['user']['name'] == generate_update_user_data['name']
-
+        assert user_update.status_code == 200 and user_update.json()['user']['email'] == generate_update_user_data[
+            'email'] and ['user']['name'] == generate_update_user_data['name']
 
     @allure.title('Невозможность изменить данные пользователя, не пройдя авторизацию')
     @allure.description('Невозможность изменить данные пользователя, не пройдя авторизацию')

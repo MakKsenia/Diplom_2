@@ -1,5 +1,7 @@
 import requests
+from urls import Url
 import urls
+
 
 class LoginMethods:
         @staticmethod

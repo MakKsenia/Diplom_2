@@ -1,5 +1,6 @@
 import requests
 import urls
+from urls import Url
 
 class UserMethods:
     @staticmethod

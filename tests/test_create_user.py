@@ -13,15 +13,14 @@ class TestCreateCourier:
 
     @allure.title ('Невозможность создания пользователя, который уже зарегистрирован')
     @allure.description('Ошибка создания пользователя, проверка кода и тела ответа')
-    def test_success_create_same_user(self, generate_user_data):
-        #Создаём первого пользователя
-        user1 = UserMethods.create_user(generate_user_data)
-        assert user1.status_code == 200 and user1.json()['user']['email'] == generate_user_data['email']
-        #Пытаемся создать второго пользователя с теми же данными'):
+    def test_success_create_same_user_1(self,create_user, generate_user_data):
+        # Пытаемся создать второго пользователя с теми же данными
         user2 = UserMethods.create_user(generate_user_data)
         # Проверяем, что создание второго курьера не удалось
-        user_already_used_error_message=ServerReplyMessages.user_already_used_error_message
-        assert user2.status_code == 403 and user2.json() == {"success": False,"message": user_already_used_error_message}
+        user_already_used_error_message = ServerReplyMessages.user_already_used_error_message
+        assert user2.status_code == 403 and user2.json() == {"success": False,
+                                                             "message": user_already_used_error_message}
+
 
     @allure.title('Невозможность создания пользователя, при оставлении одного из обязательных полей незаполненным')
     @allure.description('Проверяем, что возвращает ошибку, если одного из полей нет')
